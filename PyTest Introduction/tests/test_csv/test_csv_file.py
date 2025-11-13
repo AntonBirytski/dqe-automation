@@ -15,6 +15,7 @@ def test_validate_schema(validate_schema, data_df):
                       f"\nExpected schema: {expected_schema}"
                       f"\nActual schema: {actual_schema}")
 
+
 @pytest.mark.validate_csv
 @pytest.mark.skip(reason="Test is temporarily disabled.")
 def test_age_column_valid(data_df):
@@ -28,11 +29,13 @@ def test_email_column_valid(data_df):
     invalid_emails = data_df[~data_df['email'].astype(str).str.match(email_pattern)]
     assert invalid_emails.empty, f"Invalid email found:\n{invalid_emails}"
 
+
 @pytest.mark.validate_csv
 @pytest.mark.xfail(reason="Known issue")
 def test_duplicates(data_df):
     duplicates = data_df[data_df.duplicated(keep=False)]
     assert duplicates.empty, f"Duplicated rows:\n{duplicates}"
+
 
 @pytest.mark.validate_csv
 @pytest.mark.parametrize("id, expected_is_active", [(1, False), (2, True)])
