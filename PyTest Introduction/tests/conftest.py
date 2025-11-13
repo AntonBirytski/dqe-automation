@@ -5,7 +5,7 @@ import os
 # Fixture to read the CSV file
 @pytest.fixture(scope="session", params=["src/data/data.csv"])
 def csv_file_path(request):
-    """Fxture to returns absolute CSV file path"""
+    """Fixture to returns absolute CSV file path"""
     base_dir = os.path.dirname(os.path.dirname(__file__))
     csv_path = os.path.join(base_dir, request.param)
     return csv_path
