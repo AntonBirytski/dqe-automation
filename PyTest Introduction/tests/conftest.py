@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 import os
 
+
 # Fixture to read the CSV file
 @pytest.fixture(scope="session", params=["src/data/data.csv"])
 def csv_file_path(request):
@@ -10,11 +11,13 @@ def csv_file_path(request):
     csv_path = os.path.join(base_dir, request.param)
     return csv_path
 
+
 @pytest.fixture(scope="session")
 def data_df(csv_file_path):
     """Fixture to load CSV into a dataframe"""
     df = pd.read_csv(csv_file_path)
     return df
+
 
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session")
@@ -34,6 +37,7 @@ def validate_schema():
         return True
 
     return _validate_schema
+
 
 # Pytest hook to mark unmarked tests with a custom mark
 def pytest_collection_modifyitems(items):
