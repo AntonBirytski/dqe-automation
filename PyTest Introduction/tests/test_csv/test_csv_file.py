@@ -46,8 +46,8 @@ def test_active_players(id, expected_is_active, data_df):
         for _, rec in mismatched.iterrows():
             mismatch_list = [f"{rec['is_active']}"]
             mismatch_str = ", ".join(mismatch_list)
-        assert False, (f"Incorrect 'is_active' attribute for player with id = {id}:"
-                       f"\nexpected: {expected_is_active}, actual: {mismatch_str}")
+            assert False, (f"Incorrect 'is_active' attribute for player with id = {id}:"
+                           f"\nexpected: {expected_is_active}, actual: {mismatch_str}")
 
 
 def test_active_player(data_df):
