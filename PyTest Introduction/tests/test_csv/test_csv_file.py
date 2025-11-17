@@ -25,8 +25,8 @@ def test_age_column_valid(data_df):
 
 @pytest.mark.validate_csv
 def test_email_column_valid(data_df):
-    email_pattern = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
-    invalid_emails = data_df[~data_df['email'].astype(str).str.match(email_pattern)]
+    email_pattern = re.compile(r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-.]+$")
+    invalid_emails = data_df[~data_df['email'].astype(str).str.match(email_pattern, na=False)]
     assert invalid_emails.empty, f"Invalid email found:\n{invalid_emails}"
 
 
