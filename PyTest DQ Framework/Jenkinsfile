@@ -22,7 +22,7 @@ pipeline {
                     // Activate the virtual environment, set PYTHONPATH, and run the script
                     sh '''
                     # Navigate to the specific folder where the tests are located
-                    cd "PyTest DQ Framework Result/"
+                    cd "PyTest DQ Framework/"
 
                     # Activate the virtual environment
                     . ../venv/bin/activate
@@ -45,15 +45,15 @@ pipeline {
         stage('Archive Test Report') {
             steps {
                 // Archive the entire html_report directory, including assets
-                archiveArtifacts artifacts: 'PyTest DQ Framework Result/html_report/**', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'PyTest DQ Framework/html_report/**', allowEmptyArchive: true
 
                 // Publish the HTML report
                 publishHTML(target: [
                     allowMissing: false,  // Fail the pipeline if the report is missing
                     keepAll: true,        // Keep all reports from previous runs
-                    reportDir: 'PyTest DQ Framework Result/html_report', // Correct directory path
+                    reportDir: 'PyTest DQ Framework/html_report', // Correct directory path
                     reportFiles: 'index.html',                          // Entry point file
-                    reportName: 'HTML Test Report'                      // Display name in Jenkins
+                    reportName: 'DQ checks Test Report'                      // Display name in Jenkins
                 ])
             }
         }
@@ -70,4 +70,5 @@ pipeline {
         }
     }
 }
+
 
