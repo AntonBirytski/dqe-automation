@@ -37,7 +37,6 @@ pipeline {
                         --db_name="mydatabase" \
                         --db_user=$POSTGRES_SECRET_USR \
                         --db_password=$POSTGRES_SECRET_PSW \
-                        --html=html_report/report.html
                 '''
                 }
             }}
@@ -70,5 +69,6 @@ pipeline {
         }
     }
 }
+
 
 
