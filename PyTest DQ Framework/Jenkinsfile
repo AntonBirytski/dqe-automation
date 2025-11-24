@@ -29,6 +29,8 @@ pipeline {
                     # Activate venv in the parent workspace
                     . ../.venv/bin/activate
 
+                    export PYTHONPATH=$WORKSPACE
+
                     pytest tests -v -m "parquet_data" \
                         --db_host="postgres" \
                         --db_port="5432" \
@@ -66,3 +68,4 @@ pipeline {
         }
     }
 }
+
