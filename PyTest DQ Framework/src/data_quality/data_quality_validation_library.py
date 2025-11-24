@@ -56,13 +56,28 @@ class DataQualityLibrary:
     @staticmethod
     def check_not_null_values(df: pd.DataFrame, column_names=None):
         """
-        Check if columns in the Dataframe contain null values. If column_names is None, check all columns.
+        Check if columns in the Dataframe contain null values.
+        If column_names is None, check all columns.
         """
-        column_names_with_nulls = []
+        if column_names is None:
+            column_names = df.columns.tolist()
+
+        columns_with_nulls = {}
+
         for column_name in column_names:
-            if df[column_name].isnull().any():
-                column_names_with_nulls.append(column_name)
-        assert not column_names_with_nulls, f"Null values found in column(s): {', '.join(column_names_with_nulls)}"
+            if column_name not in df.columns:
+                columns_with_nulls[column_name] = "!!!column NOT found in Dataframe!!!"
+                continue
+
+            null_count = df[column_name].isnull().sum()
+            if null_count > 0:
+                columns_with_nulls[column_name] = null_count
+
+        if columns_with_nulls:
+            formatted = "\n".join(
+                f"'{col}': {count}" for col, count in columns_with_nulls.items()
+            )
+            raise AssertionError(f"Null values found in column(s):\n{formatted}")
 
     @staticmethod
     def check_column_rules(df: pd.DataFrame, column_rules: dict) -> pd.DataFrame:
@@ -74,7 +89,7 @@ class DataQualityLibrary:
         for column, rules in column_rules.items():
 
             if column not in df.columns:
-                raise ValueError(f"Column '{column}' not found in DataFrame.")
+                raise ValueError(f"Column '{column}' not found in Dataframe.")
 
             # mask for this column
             invalid_mask = pd.Series(False, index=df.index)

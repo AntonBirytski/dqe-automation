@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from typing import List, Optional
+from typing import List, Tuple, Optional
 
 
 class ParquetReader:
@@ -10,6 +10,22 @@ class ParquetReader:
     """
     def __init__(self, base_path: Optional[str] = None):
         self.base_path = base_path
+
+    def resolve_parquet_path(self, local_path: str, jenkins_path: str) -> str:
+        """
+        Return the correct path depending on what exists:
+        - If Jenkins path exists → use it
+        - Otherwise if local path exists → use it
+        """
+        if os.path.exists(jenkins_path):
+            return jenkins_path
+
+        if os.path.exists(local_path):
+            return local_path
+
+        raise FileNotFoundError(
+            f"Neither local path '{local_path}' nor Jenkins path '{jenkins_path}' exists."
+        )
 
     def _resolve_path(self, path: str) -> str:
         """
@@ -55,12 +71,16 @@ class ParquetReader:
         dfs = [pd.read_parquet(f) for f in parquet_files]
         return pd.concat(dfs, ignore_index=True)
 
-    def load(self, path: str, recursive: bool = False) -> pd.DataFrame:
+    def load(self, path: str | Tuple[str, str], recursive: bool = False) -> pd.DataFrame:
         """
         Unified loader.
         If recursive=True: loads from subfolders (read_partitioned).
         If recursive=False: loads single file or simple parquet folder (read).
         """
+        if isinstance(path, tuple):
+            local_path, jenkins_path = path
+            path = self.resolve_parquet_path(local_path, jenkins_path)
+
         if recursive:
             return self.read_partitioned(path)
         return self.read(path)

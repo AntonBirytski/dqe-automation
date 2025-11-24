@@ -26,8 +26,9 @@ def source_data(db_connection):
 
 @pytest.fixture(scope='module')
 def target_data(parquet_reader):
-    target_path = r"/parquet_data/facility_type_avg_time_spent_per_visit_date"
-    target_data = parquet_reader.load(target_path, recursive=True)
+    local_path = r"C:/tmp/parquet_data/facility_type_avg_time_spent_per_visit_date"
+    jenkins_path = r"/parquet_data/facility_type_avg_time_spent_per_visit_date"
+    target_data = parquet_reader.load((local_path, jenkins_path), recursive=True)
     return target_data
 
 
