@@ -63,8 +63,8 @@ def test_check_not_null_values(target_data, data_quality_library):
                                                column_names=['facility_type', 'visit_date', 'avg_time_spent'])
 
 @pytest.mark.parquet_data
-@pytest.mark.patient_sum_treatment_cost_per_facility_type
-def test_avg_time_spent_values(source_data, data_quality_library):
+@pytest.mark.facility_type_avg_time_spent_per_visit_date
+def test_avg_time_spent_validity(source_data, data_quality_library):
     data_quality_library.check_column_rules(df=source_data,
                                             column_rules={"avg_time_spent": {
                                                 "condition": lambda row: round(row["avg_time_spent"], 2) == row["avg_time_spent"]}})

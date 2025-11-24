@@ -66,5 +66,5 @@ def test_check_not_null_values(target_data, data_quality_library):
 
 @pytest.mark.parquet_data
 @pytest.mark.patient_sum_treatment_cost_per_facility_type
-def test_sum_treatment_cost_values(target_data, data_quality_library):
+def test_sum_treatment_cost_validity(target_data, data_quality_library):
     data_quality_library.check_column_rules(df=target_data, column_rules={"sum_treatment_cost": {"min": 0}})
