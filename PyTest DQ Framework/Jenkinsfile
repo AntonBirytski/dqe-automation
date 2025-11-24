@@ -7,12 +7,13 @@ pipeline {
     }
 
     stages {
+
         stage('Install Dependencies') {
             steps {
                 sh '''
-                python3 -m venv .venv
-                . .venv/bin/activate 
-                pip install -r "PyTest DQ Framework/requirements.txt"
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    pip install -r "PyTest DQ Framework/requirements.txt"
                 '''
             }
         }
@@ -22,12 +23,12 @@ pipeline {
                 echo "Running tests..."
 
                 sh """
-                    #Open DQ-Framework folder
+                    # Move into the framework directory
                     cd "PyTest DQ Framework"
 
-                    #Activate env
-                    . ../venv/bin/activate
-                    
+                    # Activate venv in the parent workspace
+                    . ../.venv/bin/activate
+
                     pytest tests -v -m "parquet_data" \
                         --db_host="postgres" \
                         --db_port="5432" \
@@ -40,10 +41,8 @@ pipeline {
 
         stage('Archive Test Report') {
             steps {
-                // Archive the entire html_report directory including assets
                 archiveArtifacts artifacts: 'PyTest DQ Framework/html_report/**', allowEmptyArchive: true
 
-                // Publish the HTML report
                 publishHTML(target: [
                     allowMissing: false,
                     keepAll: true,
@@ -66,5 +65,4 @@ pipeline {
             echo 'Pipeline failed. Please check the logs for details.'
         }
     }
-
-
+}
