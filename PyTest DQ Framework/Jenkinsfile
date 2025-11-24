@@ -18,31 +18,31 @@ pipeline {
             }
         }
 
-stage('Execute tests') {
-    steps {
-        echo "Running tests..."
+        stage('Execute tests') {
+            steps {
+                echo "Running tests..."
 
-        sh(
-            script: '''
-                cd "PyTest DQ Framework"
+                sh(
+                    script: '''
+                        cd "PyTest DQ Framework"
 
-                # Activate venv
-                . ../.venv/bin/activate
+                        # Activate venv
+                        . ../.venv/bin/activate
 
-                pytest tests -v -m "parquet_data" \
-                    --db_host="postgres" \
-                    --db_port="5432" \
-                    --db_name="mydatabase" \
-                    --db_user="$POSTGRES_SECRET_USR" \
-                    --db_password="$POSTGRES_SECRET_PSW"
-            ''',
-            environment: [
-                "POSTGRES_SECRET_USR=${POSTGRES_SECRET_USR}",
-                "POSTGRES_SECRET_PSW=${POSTGRES_SECRET_PSW}"
-            ]
-        )
-    }
-}
+                        pytest tests -v -m "parquet_data" \
+                            --db_host="postgres" \
+                            --db_port="5432" \
+                            --db_name="mydatabase" \
+                            --db_user="$POSTGRES_SECRET_USR" \
+                            --db_password="$POSTGRES_SECRET_PSW"
+                    ''',
+                    env: [
+                        "POSTGRES_SECRET_USR=${POSTGRES_SECRET_USR}",
+                        "POSTGRES_SECRET_PSW=${POSTGRES_SECRET_PSW}"
+                    ]
+                )
+            }
+        }
 
         stage('Archive Test Report') {
             steps {
@@ -71,5 +71,3 @@ stage('Execute tests') {
         }
     }
 }
-
-
