@@ -51,7 +51,7 @@ pipeline {
                     allowMissing: false,  // Fail the pipeline if the report is missing
                     keepAll: true,        // Keep all reports from previous runs
                     reportDir: 'PyTest DQ Framework/html_report', // Correct directory path
-                    reportFiles: 'index.html',                          // Entry point file
+                    reportFiles: 'DQ_checks.html',                          // Entry point file
                     reportName: 'DQ checks Test Report'                      // Display name in Jenkins
                 ])
             }
@@ -69,6 +69,7 @@ pipeline {
         }
     }
 }
+
 
 
 
