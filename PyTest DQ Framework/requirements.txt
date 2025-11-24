@@ -1,0 +1,16 @@
+# Python version >= 3.8 is required
+
+# PostgreSQL database adapter for Python
+psycopg2~=2.9.10
+
+# A powerful data analysis and manipulation library. Used for reading and processing Parquet files and PostgreSQL data
+pandas~=2.2.3
+
+# A testing framework for managing and executing test cases
+pytest~=8.4.0
+
+# A plugin for generating HTML reports for test results
+pytest-html~=4.1.1
+
+# Parquet support engine for pandas
+pyarrow~=22.0.0
