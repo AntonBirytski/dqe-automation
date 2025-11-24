@@ -22,8 +22,11 @@ pipeline {
             steps {
                 echo "Running tests..."
 
-                sh(
-                    script: '''
+                withEnv([
+                    "POSTGRES_SECRET_USR=${POSTGRES_SECRET_USR}",
+                    "POSTGRES_SECRET_PSW=${POSTGRES_SECRET_PSW}"
+                ]) {
+                    sh '''
                         cd "PyTest DQ Framework"
 
                         # Activate venv
@@ -35,12 +38,8 @@ pipeline {
                             --db_name="mydatabase" \
                             --db_user="$POSTGRES_SECRET_USR" \
                             --db_password="$POSTGRES_SECRET_PSW"
-                    ''',
-                    env: [
-                        "POSTGRES_SECRET_USR=${POSTGRES_SECRET_USR}",
-                        "POSTGRES_SECRET_PSW=${POSTGRES_SECRET_PSW}"
-                    ]
-                )
+                    '''
+                }
             }
         }
 
