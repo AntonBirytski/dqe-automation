@@ -13,8 +13,12 @@ pipeline {
                 echo "Running tests..."
 
                 sh """
-                    .venv/bin/activate
+                    #Open DQ-Framework folder
                     cd "PyTest DQ Framework"
+
+                    #Activate env
+                    . ../venv/bin/activate
+                    
                     pytest tests -v -m "parquet_data" \
                         --db_host="postgres" \
                         --db_port="5432" \
@@ -54,3 +58,4 @@ pipeline {
         }
     }
 }
+
