@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.5 on win32)" generated="2025-12-03T23:01:30.422983" rpa="false" schemaversion="5">
+<suite id="s1" name="Test" source="C:\Mentoring DQE programs\DQE Automation\dqe-automation\Robot Framework\test.robot">
+<test id="s1-t1" name="Compare HTML table data with PARQUET data" line="14">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-12-03T23:01:30.881233" level="INFO">Opening browser 'Chrome' to base url 'file://C:\Mentoring DQE programs\DQE Automation\dqe-automation\Robot Framework/src/report.html'.</msg>
+<arg>file://${REPORT_FILE}</arg>
+<arg>Chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-12-03T23:01:30.881003" elapsed="2.342614"/>
+</kw>
+<kw name="Get WebElement" owner="SeleniumLibrary">
+<msg time="2025-12-03T23:01:33.237254" level="INFO">${table} = &lt;selenium.webdriver.remote.webelement.WebElement (session="c474a9d049edb6907a80b21fc28ff6de", element="f.BFB39538A615E7AE31B960DD4B6F0243.d.1035309000B5DC15E7FD06F7E9951F43.e.2")&gt;</msg>
+<var>${table}</var>
+<arg>class:table</arg>
+<doc>Returns the first WebElement matching the given ``locator``.</doc>
+<status status="PASS" start="2025-12-03T23:01:33.224250" elapsed="0.013120"/>
+</kw>
+<kw name="Read Table" owner="helper">
+<msg time="2025-12-03T23:01:34.297081" level="INFO">${html_df} =        Facility Type  Visit Date Average Time Spent
+17  Specialty Center  2025-10-28                 49
+18          Hospital  2025-10-28               28.5
+19            Clinic  2025-10-28            ...</msg>
+<var>${html_df}</var>
+<arg>${table}</arg>
+<arg>${HTML_FILTER_DATE}</arg>
+<status status="PASS" start="2025-12-03T23:01:33.237825" elapsed="1.059345"/>
+</kw>
+<kw name="Read Parquet" owner="helper">
+<msg time="2025-12-03T23:01:34.562661" level="INFO">${parquet_df} =           facility_type visit_date  avg_time_spent
+24854          Hospital 2025-10-28            28.5
+24863  Specialty Center 2025-10-28            49.0
+24900            Clinic 2025-10-28            1...</msg>
+<var>${parquet_df}</var>
+<arg>${PARQUET_FOLDER}</arg>
+<arg>${PARQUET_FILTER_DATE}</arg>
+<status status="PASS" start="2025-12-03T23:01:34.297514" elapsed="0.265239"/>
+</kw>
+<kw name="Normalize Dataframe" owner="helper">
+<msg time="2025-12-03T23:01:34.570777" level="INFO">${html_df_norm} =        facility_type  visit_date  avg_time_spent
+17  Specialty Center  2025-10-28            49.0
+18          Hospital  2025-10-28            28.5
+19            Clinic  2025-10-28            17.5</msg>
+<var>${html_df_norm}</var>
+<arg>${html_df}</arg>
+<status status="PASS" start="2025-12-03T23:01:34.563149" elapsed="0.007713"/>
+</kw>
+<kw name="Compare Dataframes" owner="helper">
+<msg time="2025-12-03T23:01:34.574362" level="INFO">${match} = True</msg>
+<msg time="2025-12-03T23:01:34.574426" level="INFO">${diff} = ✅ HTML table data and Parquet data match</msg>
+<var>${match}</var>
+<var>${diff}</var>
+<arg>${html_df_norm}</arg>
+<arg>${parquet_df}</arg>
+<status status="PASS" start="2025-12-03T23:01:34.571168" elapsed="0.003283"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>not ${match}</arg>
+<arg>Fail</arg>
+<arg>Data mismatch:\n${diff}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-12-03T23:01:34.574745" elapsed="0.000221"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-12-03T23:01:34.575256" elapsed="2.145259"/>
+</kw>
+<tag>html_2_parquet</tag>
+<status status="PASS" start="2025-12-03T23:01:30.879912" elapsed="5.841349"/>
+</test>
+<status status="PASS" start="2025-12-03T23:01:30.424279" elapsed="6.299597"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">html_2_parquet</stat>
+</tag>
+<suite>
+<stat name="Test" id="s1" pass="1" fail="0" skip="0">Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
